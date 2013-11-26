@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core" 
+      xmlns:x="http://java.sun.com/jsf/composite/util">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" type="text/css" href="resources/css/base.css"/>
+<title>#{directory.name }</title>
+</head>
+
+<body>
+#{securityManager.check() }
+	
+<div style='float:left'>
+<h:form>
+	
+<div>
+	<h4>#{directory.name }</h4>
+	<h:commandButton value='上一层目录' action='#{directory.up() }'/>
+	<h:commandButton value='刷新' onclick='refreshPage()'/>
+	<h:commandButton value='允许删除' action='#{canDelete.sw() }'/>
+	<h:commandButton value='退出' action='#{loginUser.logout() }'/>
+	<br/>
+	<h:inputText value='#{directory.newName }'/>
+	<h:commandButton value='创建目录' action='#{directory.md() }'/>  
+</div>
+
+<div>
+	<h:dataTable class='file_list' columnClasses=""
+				 value="#{directory.list }" var="file">
+		
+		<h:column>
+			<f:facet name="header">
+				<h:outputText value="类型"/>
+			</f:facet>
+			<h:outputText value='#{file.flag }'/>
+		</h:column>
+		
+		<h:column>
+			<f:facet name="header">
+				<h:outputText value="名称"/>
+			</f:facet>
+			<h:commandLink value='#{file.desc }' action='#{file.open() }'
+						   class='name_type_#{file.type }'/>
+		</h:column>
+		
+		<h:column>
+			<f:facet name="header">
+				<h:outputText value="大小"/>
+			</f:facet>
+			<h:outputText value='#{file.size }'/>
+		</h:column>
+		
+		<h:column>
+			<f:facet name="header">
+				<h:outputText value="修改时间"/>
+			</f:facet>
+			<h:outputText value='#{file.time }'/>
+		</h:column>
+		
+		<h:column>
+			<f:facet name="header">
+				<h:outputText value="操作"/>
+			</f:facet>
+			<h:commandLink value='修改名称' action='#{file.rename() }'/>
+			<h:commandLink value='删除' action='#{file.del() }' 
+						   rendered='#{canDelete.isCan() }'/>
+		</h:column>
+		
+	</h:dataTable>
+</div>
+</h:form>
+</div>
+
+<h:panelGroup rendered='#{directory.isNotRoot() }'>
+<div style='float: right; margin-top: 120px'>
+	<x:upload type='Upload' jscomplate='refreshPage'/>
+	<div class='spor'></div>
+	<!--
+	<x:upload type='Upload'/>
+	<div class='spor'></div>
+	
+	<x:upload type='Upload'/>
+	<div class='spor'></div> -->
+	<span style='color:#bbb; size:10px'>*相同的文件会被覆盖</span>
+	
+	<x:js src="resources/js/jquery-1.7.2.min.js"/>
+	<x:js src="resources/js/upload.js"/>
+	
+</div>
+</h:panelGroup>
+
+<iframe name='downwindow' id='downwindow' 
+		width='100%' height='10px'
+		frameborder="no" border="0" 
+		marginwidth="5" marginheight="0"
+		scrolling="no"></iframe>
+		
+<script language='javascript'>
+window.open('download?id=#{fileFlag.flag }', 'downwindow');
+
+function refreshPage() {
+	window.location.reload();
+}
+</script>
+
+</body>
+</html>

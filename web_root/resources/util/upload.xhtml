@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:x="http://java.sun.com/jsf/composite/util">
+    
+<!-- 上传文件, 依赖后端组件 llb.gis.util.UpFileServlet -->
+<composite:interface>
+	<!-- 文件处理器类别名称, 是处理类的类名, 首字母大写 -->
+	<composite:attribute name="type" required="true"/>
+	<!-- 当上传完成, 会执行 jscomplate 指定的全局js函数  -->
+	<composite:attribute name="jscomplate" required="false"/>
+</composite:interface>
+  
+<composite:implementation>
+	
+	<div class="ui_upload" jscomplate="${cc.attrs.jscomplate }">
+		#{dataLasting.resave("id", serialUidService.next()) }
+		<input type="hidden" class="pm" value='#{dataLasting.load("id") }' name="id" />
+		<input type="hidden" class="pm" value="#{cc.attrs.type}" name="type"/>
+		
+		<form method="POST" enctype="multipart/form-data" 
+			  target='hideframe_#{dataLasting.load("id") }' 
+			  action='up_file?service=upfile'>
+	
+		  	<table>
+		  		<tr>
+		  			<td colspan="2"><input type="file" name="upfile"/></td>
+		  		</tr>
+		  		<tr>
+		  			<td rowspan="2"><input type="submit" value="确定上传" /></td> 
+		  			<td><span class='progress_msg' mid='#{dataLasting.load("id") }'
+						url="up_file?service=progress"></span>
+					</td>
+		  		</tr>
+		  		<tr>
+		  			<td style="width: 190px">
+		  				<iframe height='20px' width='180px'
+		  					id='hideframe_#{dataLasting.load("id") }'
+		  					name='hideframe_#{dataLasting.load("id") }'
+		  					style="display:none;"
+		  					allowTransparency="true"
+		  					frameborder="no" border="0" 
+							marginwidth="5" marginheight="0"
+							scrolling="no"></iframe>
+					</td>
+		  		</tr>
+		  	</table>
+		</form>
+		#{dataLasting.clear("id") }
+	</div>
+	
+</composite:implementation>
+	
+</html>

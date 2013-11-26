@@ -1,0 +1,8 @@
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+<properties>
+	<comment>key = password</comment>
+	
+	<entry key="admin">admin</entry>
+	
+</properties>

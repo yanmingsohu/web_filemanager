@@ -1,0 +1,10 @@
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+<properties>
+	<comment>key = 描述</comment>
+	
+	<entry key="第三版安装程序">D:\第三版安装程序</entry>
+	<entry key="应用程序安装">D:\download_files</entry>
+	<entry key="测试">E:\[测试文件上传]</entry>
+	
+</properties>

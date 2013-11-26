@@ -1,0 +1,22 @@
+@CHARSET "UTF-8";
+
+a {
+	padding: 1px 4px;
+}
+	
+.file_list {
+	margin: 30px 15px;
+}
+
+.name_type_dir {
+	color: gray;
+}
+
+.name_type_exe {
+	color: fuchsia;
+}
+
+.spor {
+	width: 100%;
+	border: 1px solid #bbb;
+}

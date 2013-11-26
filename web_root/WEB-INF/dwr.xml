@@ -1,0 +1,38 @@
+<!DOCTYPE dwr PUBLIC
+	"-//GetAhead Limited//DTD Direct Web Remoting 3.0//EN"
+	"http://getahead.org/dwr/dwr30.dtd">
+
+<dwr>
+	<init> 
+	<!--	<creator id="jsf2" class="llb.gis.util.Jsf2Creator"/> -->
+	</init>
+	
+	<!-- create 如果省略  param{ managedBeanName },	-->
+	<!-- 则 managedBeanName 为 javascript 的值		-->
+	<allow>
+		<!-- To allow conversion of any class in the given	-->
+		<!-- package and all sub-packages: ** 				-->
+		<!--
+		<convert converter="exception" match="llb.gis.safe.NoLoginException"/>
+		<convert converter="exception" match="llb.gis.safe.PasswordFailException"/>
+		<convert converter="bean" match="java.lang.StackTraceElement"/>
+		<convert converter="bean" match="llb.gis.util.bean.**"/>
+		<!-- 不要尝试这个, 这是个无底洞
+		<convert converter="bean" match="org.apache.commons.beanutils.BasicDynaBean"/>
+		<convert converter="bean" match="org.apache.commons.beanutils.RowSetDynaClass"/> -->
+		
+		<!--
+		<create creator="jsf2" javascript="systemLayerType">
+			<param name="class" value="llb.gis.constant.SystemLayerType"/>	
+		</create>
+		
+		
+		<convert converter="bean" match="llb.gis.constant.conf.**"/>
+		<create creator="new" javascript="globeConfigService">
+			<param name="class" value="llb.gis.constant.GlobeConfigService"/>	
+		</create>
+		-->
+		
+	</allow>
+	
+</dwr>

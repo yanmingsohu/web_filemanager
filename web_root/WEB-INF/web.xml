@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"  
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" 
+		xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+				http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" 
+		id="WebApp_ID" version="2.5">
+	
+	
+	<display-name>CatfoOD file manager.</display-name>
+	
+	<listener>
+		<listener-class>jym.file.SecurityManager</listener-class>
+	</listener>
+	
+	<!-- 在 servlet 线程中得到 jsf 对象 -->
+	<filter>
+		<filter-name>DwrFacesFilter</filter-name>
+		<filter-class>org.directwebremoting.faces.FacesExtensionFilter</filter-class>
+	</filter>
+	
+
+	<!-- jsf 配置  -->
+	<servlet>
+		<servlet-name>Faces Servlet</servlet-name>
+		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Faces Servlet</servlet-name>
+		<url-pattern>*.xhtml</url-pattern>
+	</servlet-mapping>
+    <context-param>
+    	<!-- Change to "Production" when you are ready to deploy
+    	 Development / Production -->
+        <param-name>javax.faces.PROJECT_STAGE</param-name>
+        <param-value>Development</param-value>
+    </context-param>
+    <context-param>
+     	<!-- 去掉输出到客户端页面上的注释 -->
+        <param-name>javax.faces.FACELETS_SKIP_COMMENTS</param-name>
+        <param-value>true</param-value>
+    </context-param>
+    <context-param>
+		<param-name>com.sun.faces.expressionFactory</param-name>
+		<param-value>com.sun.el.ExpressionFactoryImpl</param-value>
+	</context-param>
+
+
+	<!-- DWR config --> <!--
+	<filter>
+		<filter-name>DwrFacesFilter</filter-name>
+		<filter-class>org.directwebremoting.faces.FacesExtensionFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>DwrFacesFilter</filter-name>
+		<url-pattern>/direct/*</url-pattern>
+	</filter-mapping>
+	
+	<servlet>
+	  <display-name>DWR Servlet</display-name>
+	  <servlet-name>dwr-invoker</servlet-name>  
+	  <servlet-class>org.directwebremoting.servlet.DwrServlet</servlet-class>
+	  <init-param>
+	     <param-name>debug</param-name>
+	     <param-value>true</param-value>
+	  </init-param>
+	  <load-on-startup>2</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+	  <servlet-name>dwr-invoker</servlet-name>
+	  <url-pattern>/direct/*</url-pattern>
+	</servlet-mapping> -->
+	
+	
+	<!--  文件上传组件 -->
+	<servlet> 
+		<servlet-name>up_file</servlet-name>
+		<servlet-class>jym.file.trans.UploadProcesser</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+	  <servlet-name>up_file</servlet-name>
+	  <url-pattern>/up_file</url-pattern>
+	</servlet-mapping>
+	<filter-mapping>
+		<filter-name>DwrFacesFilter</filter-name>
+		<url-pattern>/up_file</url-pattern>
+	</filter-mapping>
+	<listener>
+		<listener-class>
+		org.apache.commons.fileupload.servlet.FileCleanerCleanup
+		</listener-class>
+	</listener>
+	
+	
+	<!-- 下载组件 -->
+	<servlet> 
+		<servlet-name>download</servlet-name>
+		<servlet-class>jym.file.trans.Download</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+	  <servlet-name>download</servlet-name>
+	  <url-pattern>/download</url-pattern>
+	</servlet-mapping>
+	<filter-mapping>
+		<filter-name>DwrFacesFilter</filter-name>
+		<url-pattern>/download</url-pattern>
+	</filter-mapping>
+	
+	
+	<!-- 乱七八糟的 -->
+	<welcome-file-list>
+		<welcome-file>root.xhtml</welcome-file>
+	</welcome-file-list>
+	<error-page>
+		<exception-type>javax.faces.application.ViewExpiredException</exception-type>
+		<location>/login.xhtml</location>
+	</error-page>
+	<error-page>
+		<exception-type>jym.file.NoLoginException</exception-type>
+		<location>/login.xhtml</location>
+	</error-page>
+	
+</web-app>
