@@ -42,6 +42,7 @@ public class Download extends HttpServlet {
 			if (file != null) {
 				resp.reset();
 				resp.setContentType("application/octet-stream");
+				resp.setContentLength((int) file.length());
 				resp.setHeader("Content-Disposition", 
 						"filename=" + URLEncoder.encode(file.getName(), "UTF-8"));
 				

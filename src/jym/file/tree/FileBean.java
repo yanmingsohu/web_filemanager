@@ -5,6 +5,8 @@ package jym.file.tree;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
@@ -19,6 +21,7 @@ import jym.sim.util.Tools;
 public class FileBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	private static final DateFormat df = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
 	private File file;
 	private String desc;
 	private String time;
@@ -65,12 +68,14 @@ public class FileBean implements Serializable {
 		return file;
 	}
 	
-	@SuppressWarnings("deprecation")
 	public void setFile(File file) {
 		this.file = file;
 		this.desc = file.getName();
-		time = new Date(file.lastModified()).toLocaleString();
-		flag = file.isDirectory() ? "[" : ".";
+		this.flag = file.isDirectory() ? "[" : ".";
+
+		synchronized (df) {
+			time = df.format(new Date(file.lastModified()));
+		}
 		
 		if (file.isDirectory()) {
 			type = "dir";

@@ -16,6 +16,7 @@ public class LoginUser implements Serializable {
 	
 	private String name;
 	private String pw;
+	private String code;
 	private boolean login;
 	
 	
@@ -54,5 +55,13 @@ public class LoginUser implements Serializable {
 	
 	public String toString() {
 		return login ? "已经登录" : "未登录";
+	}
+	
+	public String getCode() {
+		return code;
+	}
+	
+	public void setCode(String code) {
+		this.code = code;
 	}
 }

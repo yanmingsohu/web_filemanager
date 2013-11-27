@@ -7,21 +7,33 @@
 
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="pragma" content="no-cache"/>
+<meta http-equiv="cache-control" content="no-cache"/>
+<meta http-equiv="expires" content="0"/>
+<meta name="robots" content="noindex,nofollow"/>
+
 <link rel="stylesheet" type="text/css" href="resources/css/base.css"/>
 <title>登录</title>
 </head>
 
 <body>
 
-<h:form>
+<h:form style='margin-top: 150px; padding-left: 260px; background-color:#eee'>
 	<h:panelGrid columns='2'> 
-		<f:verbatim><span class='tt'>用户登录</span></f:verbatim>
+		<f:verbatim><span class='tt'></span></f:verbatim>
 		<f:verbatim/>
 
 		<h:outputLabel value='用户名' for='name'/>
 		<h:inputText value="#{loginUser.name }" id='name' tabindex='0'/>
+		
 		<h:outputLabel value='密码' for='password'/>
-		<h:inputSecret value="#{loginUser.pw }" id='password'/> 
+		<h:inputSecret value="#{loginUser.pw }" id='password'/>
+		
+		<f:verbatim/>
+		<h:panelGroup>
+			<h:inputText value="#{loginUser.code }" id='code'/>
+			<img src='img' align='absbottom'/>
+		</h:panelGroup>
 		
 		<f:verbatim/>
 		<h:panelGroup>
@@ -30,6 +42,9 @@
 		</h:panelGroup>
 	</h:panelGrid>
 </h:form>
+
+<div style='font-size: 8px; float:right;'>CatfoOD 2014 
+	<a href='http://412475540.qzone.qq.com' target='_blank'>Q412475540Q</a> v0.03</div>
 
 </body>
 </html>

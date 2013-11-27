@@ -23,4 +23,8 @@ public class FileFlag implements Serializable {
 	public void setFlag(Object flag) {
 		this.flag = flag;
 	}
+	
+	public void clear() {
+		flag = null;
+	}
 }

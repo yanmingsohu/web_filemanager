@@ -2,14 +2,19 @@
 
 package jym.file;
 
+import java.io.Serializable;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
 import jym.sim.validator.VerifyMessage.Msg;
 
 
-public abstract class FaceBase {
+public abstract class FaceBase implements Serializable {
 
+	private static final long serialVersionUID = 1L;
+
+	
 	public static MessageSender getSender() {
 		return new MessageSender();
 	}

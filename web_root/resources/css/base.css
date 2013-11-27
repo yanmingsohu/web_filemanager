@@ -3,9 +3,24 @@
 a {
 	padding: 1px 4px;
 }
+
+h4 {
+	margin-top: 20px; 
+	padding: 15px 3px; 
+	background-color:#eee
+}
 	
 .file_list {
 	margin: 30px 15px;
+}
+
+.upload_div {
+	float: right; 
+	margin-top: 80px
+}
+
+.c1, .c4 {
+	color: silver;
 }
 
 .name_type_dir {
@@ -19,4 +34,9 @@ a {
 .spor {
 	width: 100%;
 	border: 1px solid #bbb;
+}
+
+.progress_msg {
+	font-size: 8px;
+	color: gray;
 }

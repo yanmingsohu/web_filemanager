@@ -196,15 +196,15 @@ public class UploadProcesser extends HttpServlet {
 	
 	private class PL implements ProgressListener {
 
-		private long megaBytes = -1;
+//		private long megaBytes = -1;
 		private long id;
 
 		public void update(long pBytesRead, long pContentLength, int pItems) {
-			long mBytes = pBytesRead >> 20;
-			if (megaBytes >= mBytes) {
-				return;
-			}
-			megaBytes = mBytes;
+//			long mBytes = pBytesRead >> 20;
+//			if (megaBytes >= mBytes) {
+//				return;
+//			}
+//			megaBytes = mBytes;
 			
 			progressMap.put(id, 
 				"{ read: " + pBytesRead + 

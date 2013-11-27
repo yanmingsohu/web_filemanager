@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE project>
+<!--ANT 1.7 is required                            -->
+
+<project name="build war file for LLB_GIS" default="create_war">
+	<property name="war_outdir" value="${basedir}/application" />
+	<property name="version" value="LAST_${DSTAMP}" />
+	
+	<tstamp>
+		<format property="TODAY_CN" pattern="yyyy_M_dd" locale="zh"/>
+	</tstamp>
+	
+	<target name="create_war">
+		<war destfile="${war_outdir}/web_file_${TODAY_CN}.war" update="yes">
+			<fileset dir="${basedir}/web_root/">
+				<include name="**"/>
+				<exclude name="**/svn/**"/>
+				<exclude name="**/CVS/**"/>
+				<exclude name="**/.git/**"/>
+				<exclude name="**/*.log"/>
+				<exclude name="**/*.txt"/>
+				<exclude name="**/*.tmp"/>
+			
+				<exclude name="**/*nextVersion*"/>
+			</fileset>
+		</war>
+	</target>
+
+</project>

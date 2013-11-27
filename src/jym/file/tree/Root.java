@@ -15,6 +15,7 @@ import jym.file.Util;
 
 public class Root extends FaceBase {
 	
+	private static final long serialVersionUID = 1L;
 	private List<FileBean> list = new ArrayList<FileBean>();
 	
 	

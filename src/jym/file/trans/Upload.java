@@ -19,6 +19,8 @@ import org.apache.commons.fileupload.disk.DiskFileItem;
 @ApplicationScoped
 public class Upload extends FaceBase implements IUpFileProcesser {
 
+	private static final long serialVersionUID = 1L;
+
 	
 	public Upload() {
 		UploadProcesser.registerProcesser(this);

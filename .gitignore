@@ -1,6 +1,5 @@
 *.class
 *.jar
-*.war
 *.log
 *.pdf
 .#*
@@ -22,6 +21,7 @@
 *.rar
 *.bmp
 *.psd
+*.tmp
 
 
 CVS

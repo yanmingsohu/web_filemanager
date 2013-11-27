@@ -36,7 +36,9 @@ public class SecurityManager extends FaceBase
 	}
 	
 	public static void check() {
-		if (!check(FacesContext.getCurrentInstance())) {
+		FacesContext fc = FacesContext.getCurrentInstance();
+		
+		if (!check(fc)) {
 			throw new NoLoginException();
 		}
 	}
@@ -50,11 +52,20 @@ public class SecurityManager extends FaceBase
 		String pw = (String) prop.get(user.getName());
 		
 		if (pw != null) {
-			if (pw.equals(user.getPw())) {
+			MessageSender msg = getSender();
+			FacesContext fc = FacesContext.getCurrentInstance();
+			String code = (String) fc.getExternalContext()
+					.getSessionMap().get(ImageServlet.RANDOMCODEKEY);
+			
+			if (!code.equals(user.getCode().toLowerCase())) {
+				msg.addMessage("验证码不对");
+			}
+			else if (!pw.equals(user.getPw())) {
+				msg.addMessage("登录失败");
+			} 
+			else {
 				user.login();
 				return "root.xhtml";
-			} else {
-				getSender().addMessage("登录失败");
 			}
 		}
 		return null;
