@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import jym.file.Util;
 import jym.sim.util.Tools;
 
 import org.apache.commons.fileupload.FileItem;
@@ -92,7 +93,9 @@ public class UploadProcesser extends HttpServlet {
 
 	private void process(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		
+
+		req.setCharacterEncoding("UTF-8");
+		resp.setCharacterEncoding("UTF-8");
 		PrintWriter out = resp.getWriter();
 		
 		final String service = req.getParameter("service");
@@ -117,7 +120,8 @@ public class UploadProcesser extends HttpServlet {
 		final long id = Long.parseLong(req.getParameter("id"));
 		String json = progressMap.get(id);
 		resp.setContentType("application/json; charset=utf-8");
-	
+		Util.donotCache(resp);
+
 		if (json != null) {
 			out.print(json);
 		} else {
@@ -153,7 +157,7 @@ public class UploadProcesser extends HttpServlet {
 			PL progressListener = new PL();
 			progressListener.id = id;
 			upload.setProgressListener(progressListener);
-			
+		
 			Iterator<FileItem> itr = upload.parseRequest(req).iterator();
 			int upcount = 0;
 			
@@ -163,6 +167,7 @@ public class UploadProcesser extends HttpServlet {
 					if (item.isInMemory() && item.getSize() >0) {
 						throw new RuntimeException("in memory.");
 					}
+				
 					if (!Tools.isNull(item.getName())) {
 						fp.set((DiskFileItem) item);
 						++upcount;
@@ -196,20 +201,20 @@ public class UploadProcesser extends HttpServlet {
 	
 	private class PL implements ProgressListener {
 
-//		private long megaBytes = -1;
+		private long megaBytes = -1;
 		private long id;
 
 		public void update(long pBytesRead, long pContentLength, int pItems) {
-//			long mBytes = pBytesRead >> 20;
-//			if (megaBytes >= mBytes) {
-//				return;
-//			}
-//			megaBytes = mBytes;
+			if (pBytesRead < megaBytes)
+				return;
+			
+			megaBytes = pBytesRead + 56 * 1024;
 			
 			progressMap.put(id, 
 				"{ read: " + pBytesRead + 
 				" ,total: " + pContentLength +
 				" ,percentage: " + (float)((float) pBytesRead/pContentLength ) +
+				" ,itemIndex: " + pItems +
 				"} ");
 		}
 	}

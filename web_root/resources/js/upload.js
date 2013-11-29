@@ -1,7 +1,7 @@
 // J.yanming  yanming-sohu@sohu.com 2013-7-23
 // 上传文件脚本
-// @see /resources/upload.xhtml
-// @see llb.gis.util.UpFileServlet
+// @see /resources/util/upload.xhtml
+// @see jym.file.trans.UploadProcesser
 jQuery(function($){
 	
 if (window.UP_LOAD_JS) return;
@@ -9,6 +9,7 @@ window.UP_LOAD_JS = 1;
 
 
 $('.ui_upload').each(function() {
+	
 	var ui_upload = this;
 	var j_ui_upload = $(ui_upload);
 	var iframe = j_ui_upload.find('iframe');
@@ -31,6 +32,7 @@ $('.ui_upload').each(function() {
 	var url = msg.attr('url');
 	
 	var update = function() {
+		
 		function over() {
 			clearInterval(iTimerID);
 			msg.html('');
@@ -39,11 +41,13 @@ $('.ui_upload').each(function() {
 		
 		$.ajax({url: url, data: {'id': id}, dataType: 'text',
 			success: function(txt) {
+
 				var o = eval('(' + txt + ')');
 				upload_now = !o.over;
 				
 				if (upload_now) {
-					msg.html('已经上传 ' + (o.percentage* 100).toFixed(2) + "%" +
+					msg.html('第' + o.itemIndex + '个文件已经上传 ' + 
+							(o.percentage* 100).toFixed(2) + "%" +
 							" (" + (o.total/1024/1024).toFixed(3) + " MB) ");
 				} else {
 					over();
@@ -55,6 +59,7 @@ $('.ui_upload').each(function() {
 					}
 				}
 			},
+			
 			error: function() {
 				over();
 				msg.html("出错.");

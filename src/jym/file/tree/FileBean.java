@@ -15,18 +15,18 @@ import jym.file.Util;
 import jym.file.FaceBase.MessageSender;
 import jym.file.trans.Download;
 import jym.file.trans.FileFlag;
-import jym.sim.util.Tools;
 
 
 public class FileBean implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2L;
 	private static final DateFormat df = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
 	private File file;
 	private String desc;
 	private String time;
 	private String type;
 	private String flag;
+	private String newName;
 	
 
 	public void open() throws FileNotFoundException {
@@ -50,6 +50,7 @@ public class FileBean implements Serializable {
 		else if (file.canWrite()) {
 			
 			if (file.delete()) {
+				refreshCurrentDir();
 				msg.addMessage("删除了文件: " + file);
 			} else {
 				msg.addMessage("删除失败");
@@ -60,8 +61,24 @@ public class FileBean implements Serializable {
 		}
 	}
 	
+	private void refreshCurrentDir() {
+		Directory dir = (Directory) Util.getBean("directory");
+		dir.refresh();
+	}
+	
 	public void rename() {
-		Tools.pl("未完成...");
+		MessageSender msg = FaceBase.getSender();
+		
+		if (newName.indexOf('/') >= 0 || newName.indexOf('\\') >= 0) {
+			msg.addMessage("含有无效字符");
+			return;
+		}
+		
+		File newFile = new File(file.getParent() + "/" + newName);
+		file.renameTo(newFile);
+		refreshCurrentDir();
+		
+		FaceBase.getSender().addMessage("修改了文件名, " + newName);
 	}
 	
 	public File getFile() {
@@ -72,6 +89,7 @@ public class FileBean implements Serializable {
 		this.file = file;
 		this.desc = file.getName();
 		this.flag = file.isDirectory() ? "[" : ".";
+		this.newName = file.getName();
 
 		synchronized (df) {
 			time = df.format(new Date(file.lastModified()));
@@ -130,6 +148,14 @@ public class FileBean implements Serializable {
 
 	public void setFlag(String flag) {
 		this.flag = flag;
+	}
+	
+	public String getNewName() {
+		return newName;
+	}
+
+	public void setNewName(String newName) {
+		this.newName = newName;
 	}
 
 }

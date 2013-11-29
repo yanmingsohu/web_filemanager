@@ -26,9 +26,7 @@ public class ImageServlet extends HttpServlet {
             throws ServletException, IOException {
 
         resp.setContentType("image/jpeg");
-        resp.setHeader("Pragma", "No-cache");
-        resp.setHeader("Cache-Control", "no-cache");
-        resp.setDateHeader("Expire", 0);
+        Util.donotCache(resp);
         
         try {
             getRandcode(req, resp);
@@ -52,16 +50,12 @@ public class ImageServlet extends HttpServlet {
 	private int lineSize = 60;
 	private int stringNum = 6;
 
-	/*
-	 * 获得字体
-	 */
+	/** 获得字体 */
 	private Font getFont() {
 		return new Font("Fixedsys", Font.CENTER_BASELINE, 18);
 	}
 
-	/*
-	 * 获得颜色
-	 */
+	/*  获得颜色 */
 	private Color getRandColor(int fc, int bc) {
 		if (fc > 255)
 			fc = 255;

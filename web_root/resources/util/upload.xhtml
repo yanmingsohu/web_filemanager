@@ -21,14 +21,17 @@
 		<input type="hidden" class="pm" value='#{dataLasting.load("id") }' name="id" />
 		<input type="hidden" class="pm" value="#{cc.attrs.type}" name="type"/>
 		
-		<form method="POST" enctype="multipart/form-data" 
+		<form method="POST" enctype="multipart/form-data" encoding="multipart/form-data"
 			  target='hideframe_#{dataLasting.load("id") }' 
 			  action='up_file?service=upfile'>
 	
 		  	<table>
-		  		<tr>
-		  			<td colspan="2"><input type="file" name="upfile"/></td>
-		  		</tr>
+		  		<tr><td colspan="2"><input type="file" name="upfile"/></td></tr>
+		  		<tr><td colspan="2"><input type="file" name="upfile"/></td></tr>
+		  		<tr><td colspan="2"><input type="file" name="upfile"/></td></tr>
+		  		<tr><td colspan="2"><input type="file" name="upfile"/></td></tr>
+		  		<tr><td colspan="2"><input type="file" name="upfile"/></td></tr>
+		  		
 		  		<tr>
 		  			<td rowspan="2"><input type="submit" value="确定上传" /></td> 
 		  			<td><span class='progress_msg' mid='#{dataLasting.load("id") }'

@@ -23,8 +23,8 @@
 <h4>#{directory.name }</h4>
 
 <div style='float:left'>
-<h:form>
 	
+<h:form>
 <div>
 	<h:commandButton value='上一层目录' action='#{directory.up() }'/>
 	<h:commandButton value='刷新' onclick='refreshPage()'/>
@@ -34,7 +34,9 @@
 	<h:inputText value='#{directory.newName }'/>
 	<h:commandButton value='创建目录' action='#{directory.md() }'/>  
 </div>
+</h:form>
 
+<h:form>
 <div>
 	<h:dataTable class='file_list' columnClasses="c1,c2,c3,c4,c5"
 				 value="#{directory.list }" var="file">
@@ -72,7 +74,13 @@
 			<f:facet name="header">
 				<h:outputText value="操作"/>
 			</f:facet>
-			<h:commandLink value='修改名称' action='#{file.rename() }'/>
+			<span>
+				<span class='rename_span'>
+					<h:inputText value='#{file.newName }'/>
+					<h:commandLink value='确定' action='#{file.rename() }'/>
+				</span>
+				<a href='#' class='rename_target'>修改名称</a>
+			</span>
 			<h:commandLink value='删除' action='#{file.del() }' 
 						   rendered='#{canDelete.isCan() }'/>
 		</h:column>
@@ -92,7 +100,7 @@
 	
 	<x:upload type='Upload'/>
 	<div class='spor'></div> -->
-	<span style='color:#bbb; size:10px'>*相同的文件会被覆盖,上传时不要改变目录</span>
+	<span style='color:#bbb; font-size:12px'>*相同的文件会被覆盖,上传时不要进行其他操作</span>
 	
 	<x:js src="resources/js/jquery-1.7.2.min.js"/>
 	<x:js src="resources/js/upload.js"/>
@@ -102,7 +110,7 @@
 
 <!-- 下载文件的部分 -->
 <iframe name='downwindow' id='downwindow' src="blank.html"
-		width='100%' height='10px'
+		width='100%' height='100px'
 		frameborder="no" border="0" 
 		marginwidth="5" marginheight="0"
 		scrolling="no"></iframe>
@@ -111,9 +119,13 @@
 window.open('download?id=#{fileFlag.flag }', 'downwindow');
 
 function refreshPage() {
-	//window.location.reload();
 	window.open('root.xhtml', '_self');
 }
+
+$('.rename_target').click(function() {
+	$('.rename_span').hide();
+	$(this.parentNode).find('.rename_span').show(); 
+});
 </script>
 #{fileFlag.clear() }
 

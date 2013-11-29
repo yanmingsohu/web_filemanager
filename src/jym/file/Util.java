@@ -8,6 +8,7 @@ import java.util.Properties;
 
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletResponse;
 
 
 public class Util {
@@ -27,6 +28,12 @@ public class Util {
 	
 	public static final Object getBean(String managedBeanName) {
 		return getBean(FacesContext.getCurrentInstance(), managedBeanName);
+	}
+	
+	public static final void donotCache(HttpServletResponse resp) {
+		resp.setHeader("Pragma", "No-cache");
+        resp.setHeader("Cache-Control", "no-cache");
+        resp.setDateHeader("Expire", 0);
 	}
 	
 	/**
