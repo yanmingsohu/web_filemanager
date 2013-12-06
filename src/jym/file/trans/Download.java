@@ -56,10 +56,8 @@ public class Download extends HttpServlet {
 		
 		Tools.pl("client request file:", file);
 		
-		int filelen = (int) file.length();
 		resp.reset();
 		resp.setContentType("application/octet-stream; charset=utf-8");
-		resp.setContentLength(filelen);
 		resp.setHeader("Last-Modified", format.format( new Date(file.lastModified()) ));
 		resp.setHeader("Content-Disposition", 
 				"filename=" + URLEncoder.encode(file.getName(), "UTF-8"));
@@ -97,8 +95,11 @@ public class Download extends HttpServlet {
 				return;
 			}
 		}
-		
+
 		resp.setStatus(HttpServletResponse.SC_PARTIAL_CONTENT);
+		resp.setContentLength((int) range.length());
+		resp.setHeader("Content-Range", "bytes " + range.getFirstPos() + 
+				"-" + range.getLastPos() + "/" + file.length());
 		
 		InputStream in = range.openInputStream();
 		OutputStream out = resp.getOutputStream();
@@ -111,6 +112,7 @@ public class Download extends HttpServlet {
 	private void directWrite(File file, HttpServletResponse resp, UUID uid) 
 			throws Exception {
 
+		resp.setContentLength((int) file.length());
 		InputStream in = new FileInputStream(file);
 		OutputStream out = resp.getOutputStream();
 		
