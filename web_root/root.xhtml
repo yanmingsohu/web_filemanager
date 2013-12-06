@@ -95,12 +95,7 @@
 <div class='upload_div'>
 	<x:upload type='Upload' jscomplate='refreshPage'/>
 	<div class='spor'></div>
-	<!--
-	<x:upload type='Upload'/>
-	<div class='spor'></div>
-	
-	<x:upload type='Upload'/>
-	<div class='spor'></div> -->
+
 	<span style='color:#bbb; font-size:12px'>*相同的文件会被覆盖,上传时不要进行其他操作</span>
 	
 	<x:js src="resources/js/upload.js"/>
@@ -114,9 +109,18 @@
 		frameborder="no" border="0" 
 		marginwidth="5" marginheight="0"
 		scrolling="no"></iframe>
+
+<div id='download_link'></div>
 		
 <script language='javascript'>
-window.open('download?id=#{fileFlag.flag }', 'downwindow');
+var flag = '#{fileFlag.flag }'
+if (flag) {
+	var file_link = 'download?id=#{fileFlag.flag }';
+	window.open(file_link, 'downwindow');
+	
+	$('#download_link').html(
+		'<a href="' + file_link + '">手动下载: #{fileFlag.name }</a>'); 
+}
 
 function refreshPage() {
 	window.open('root.xhtml', '_self');

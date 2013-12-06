@@ -34,10 +34,10 @@ public class FileBean implements Serializable {
 			Directory dir = (Directory) Util.getBean("directory");
 			dir.open(file);
 		} else {
-			//InputStream in = new FileInputStream(file);
 			UUID id = Download.putFile(file);
 			FileFlag flag = (FileFlag) Util.getBean("fileFlag");
 			flag.setFlag(id);
+			flag.setName(file.getName());
 		}
 	}
 	
