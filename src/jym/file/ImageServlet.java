@@ -5,6 +5,8 @@ package jym.file;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Random;
@@ -42,7 +44,7 @@ public class ImageServlet extends HttpServlet {
 
 	private int width = 120;
 	private int height = 26;
-	private int lineSize = 160;
+	private int lineSize = 20;
 	private int stringNum = 6;
 
 	
@@ -77,15 +79,39 @@ public class ImageServlet extends HttpServlet {
 	 * 绘制字符串
 	 */
 	private void drowString(Graphics g, char[] randomString) {
+		Graphics2D g2 = null;
+		
+		if (g instanceof Graphics2D) {
+			g2 = (Graphics2D) g;
+			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, 
+					RenderingHints.VALUE_ANTIALIAS_ON);
+			g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, 
+					RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		}
+			
 		for (int i = 1; i <= stringNum; i++) {
 			randomString[i-1] = randString.charAt( 
 					random.nextInt(randString.length()) );
+
+			double r = 0;
+			
+			if (g2 != null) {
+				r = random.nextDouble() * 0.08;
+				if (random.nextDouble() > 0.5) {
+					r *= -1;
+				}
+				g2.scale(1 + r, 1 - r);
+				g2.rotate(r);
+			}
 			
 			g.setFont(getFont());
 			g.setColor(new Color(random.nextInt(101), 
 					random.nextInt(111), random.nextInt(121)));
-			g.translate(random.nextInt(3), random.nextInt(3));
-			g.drawChars(randomString, i-1, 1, 13 * i, 16);
+			g.drawChars(randomString, i-1, 1, 16 * i - 5, 19);
+			
+			if (g2 != null) {
+				g2.rotate(-r);
+			}
 		}
 	}
 
@@ -107,5 +133,4 @@ public class ImageServlet extends HttpServlet {
 			g.drawLine(x, y, x + xl+i, y + yl+1);
 		}
 	}
-
 }

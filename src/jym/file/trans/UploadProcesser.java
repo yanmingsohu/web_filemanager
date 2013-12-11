@@ -188,6 +188,8 @@ public class UploadProcesser extends HttpServlet {
 	}
 
 	private void print(PrintWriter out, Object msg) {
+		Util.log(msg);
+		
 		out.print("<html>");
 		out.print("<head>");
 		out.print("<meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>");

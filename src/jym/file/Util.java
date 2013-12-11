@@ -4,11 +4,14 @@ package jym.file;
 
 import java.io.InputStream;
 import java.net.URL;
+import java.util.Date;
 import java.util.Properties;
 
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
+
+import jym.sim.util.Tools;
 
 
 public class Util {
@@ -34,6 +37,11 @@ public class Util {
 		resp.setHeader("Pragma", "No-cache");
         resp.setHeader("Cache-Control", "no-cache");
         resp.setDateHeader("Expire", 0);
+	}
+	
+	public static final void log(Object ...o) {
+		System.out.print("[" + new Date() + "] ");
+		Tools.pl(o);
 	}
 	
 	/**

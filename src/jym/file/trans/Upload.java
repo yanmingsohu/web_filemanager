@@ -8,9 +8,9 @@ import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 
 import jym.file.FaceBase;
+import jym.file.SecurityManager;
 import jym.file.Util;
 import jym.file.tree.Directory;
-import jym.file.SecurityManager;
 
 import org.apache.commons.fileupload.disk.DiskFileItem;
 
@@ -27,6 +27,7 @@ public class Upload extends FaceBase implements IUpFileProcesser {
 	}
 
 	public void set(DiskFileItem item) throws Exception {
+		Util.log(item);
 		try {
 			SecurityManager.check();
 			

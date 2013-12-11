@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import jym.file.Range;
 import jym.file.SecurityManager;
+import jym.file.Util;
 import jym.sim.util.Tools;
 
 
@@ -54,7 +55,7 @@ public class Download extends HttpServlet {
 			return;
 		}
 		
-		Tools.pl("client request file:", file);
+		Util.log("client request file:", file);
 		
 		resp.reset();
 		resp.setContentType("application/octet-stream; charset=utf-8");
@@ -62,6 +63,7 @@ public class Download extends HttpServlet {
 		resp.setHeader("Content-Disposition", 
 				"filename=" + URLEncoder.encode(file.getName(), "UTF-8"));
 		resp.setHeader("Accept-Ranges", "bytes");
+		resp.setHeader("Connection", "close");
 		
 		String range_str = req.getHeader("Range");
 		try {
@@ -71,14 +73,15 @@ public class Download extends HttpServlet {
 				rangeWrite(file, req, resp, uid, range_str);
 			}		
 		} catch(Exception e) {
-			Tools.pl("write to client err:", e);
+			log("write to client err:", e);
 			resp.sendError(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
 		}
+		log("connect close.");
 	}
 	
 	private void rangeWrite(File file, HttpServletRequest req, 
 			HttpServletResponse resp, UUID uid, String range_str) throws Exception {
-		Tools.pl("continue download", file, range_str);
+		Util.log("continue download", file, range_str);
 
 		Range range = new Range();
 		
@@ -146,5 +149,4 @@ public class Download extends HttpServlet {
 		filePool.put(u, file);
 		return u;
 	}
-	
 }

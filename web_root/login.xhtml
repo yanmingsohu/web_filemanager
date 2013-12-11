@@ -26,13 +26,13 @@
 		<h:outputLabel value='用户名' for='name'/>
 		<h:inputText value="#{loginUser.name }" id='name' tabindex='0'/>
 		
-		<h:outputLabel value='密码' for='password'/>
+		<h:outputLabel value='密&nbsp;&nbsp;码' for='password'/>
 		<h:inputSecret value="#{loginUser.pw }" id='password'/>
 		
 		<f:verbatim/>
 		<h:panelGroup>
 			<h:inputText value="#{loginUser.code }" id='code'/>
-			<img src='img' align='absbottom'/>
+			<img src='img' align='absbottom' id='xxcode'/>
 		</h:panelGroup>
 		
 		<f:verbatim/>
@@ -44,7 +44,13 @@
 </h:form>
 
 <div style='font-size: 8px; float:right;'>CatfoOD 2014 
-	<a href='http://412475540.qzone.qq.com' target='_blank'>Q412475540Q</a> v0.6</div>
+	<a href='http://412475540.qzone.qq.com' target='_blank'>Q412475540Q</a> v0.8</div>
+	
+<script language='javascript'>
+document.getElementById('xxcode').onclick = function() {
+	this.src = 'img?time=' + new Date().getTime();
+}
+</script>
 
 </body>
 </html>
